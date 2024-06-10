@@ -73,8 +73,7 @@ function generateCategories(categories) {
         const category = categories[i];
         const buttonFiltres = document.createElement("button");
         buttonFiltres.innerText = category.name;
-        // buttonFiltres.classList.add(category.name);
-        buttonFiltres.className = category.name;
+        buttonFiltres.className = `category${category.id}`
 
         filtresDiv.appendChild(buttonFiltres);
     };
@@ -83,36 +82,56 @@ function generateCategories(categories) {
 async function init() {
     let works = await fetchWorks();
     const categories = await fetchCategory();
-    // console.log(works[0].category.id);
-    // console.log(works[1].category.id);
-    // console.log(works[2].category.id);
-    // console.log(works[3].category.id);
-    // console.log(works[4].category.id);
-    // console.log(works[5].category.id);
-    // console.log(works[6].category.id);
 
     generateWork(works);
     generateCategories(categories)
-    const buttonObjects = document.querySelector(".Objets");
+    // const allTheButton = document.querySelectorAll("div.filtres button");
+    const buttonAllWorks = document.querySelector(".allTheWorks");
+    const buttonObjects = document.querySelector(".category1");
+    const buttonFlats = document.querySelector(".category2");
+    const buttonHandR = document.querySelector(".category3");
+    allWorksEventListener(buttonAllWorks, works);
     objectsEventListener(buttonObjects, works);
-    // buttonObjects.addEventListener('click', function(){
-    //     let filteredWorks = works.filter(function(work) {
-    //         // return work.category['name'] = ['Objets'];
-    //         return work.id = 1;
-    //     });
-    //     document.querySelector('.gallery').innerHTML = "";
-    //     generateWork(filteredWorks);
-    //     console.log(filteredWorks);
-    // });
+    flatsEventListener(buttonFlats, works);
+    HandREventListener(buttonHandR, works);
 };
+
+function allWorksEventListener(button, works) {
+    button.addEventListener('click', function() {
+        const filteredWorks = works.filter(function(work) {
+            return work;
+        })
+        document.querySelector('.gallery').innerHTML = "";
+        generateWork(filteredWorks);
+    })
+}
 
 function objectsEventListener(button, works) {
     button.addEventListener('click', function() {
         const filteredWorks = works.filter(function(work){
-            return work.category.id = 2;
+            return work.category.id === 1;
         })
         document.querySelector('.gallery').innerHTML = "";
-        console.log(filteredWorks);
+        generateWork(filteredWorks);
+    })
+}
+
+function flatsEventListener(button, works) {
+    button.addEventListener('click', function() {
+        const filteredWorks = works.filter(function(work){
+            return work.category.id === 2;
+        })
+        document.querySelector('.gallery').innerHTML = "";
+        generateWork(filteredWorks);
+    })
+}
+
+function HandREventListener(button, works) {
+    button.addEventListener('click', function() {
+        const filteredWorks = works.filter(function(work){
+            return work.category.id === 3;
+        })
+        document.querySelector('.gallery').innerHTML = "";
         generateWork(filteredWorks);
     })
 }
