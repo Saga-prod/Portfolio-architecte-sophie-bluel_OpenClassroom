@@ -136,4 +136,52 @@ function HandREventListener(button, works) {
     })
 }
 
+function EditionMode() {
+    const adminMode = document.querySelector(".admin-mode");
+    const modifiedTitle = document.querySelector(".modified-title");
+
+    adminMode.innerHTML = 
+    `
+        <nav class="editModeText">
+           <p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>
+        </nav>
+    `;
+    modifiedTitle.innerHTML = 
+    `
+        <h2>Mes Projets</h2>
+        <a href="#" data-target="#modale1" data-toggle="modal"><i 
+        class="fa-regular fa-pen-to-square"></i>modifier</a>
+    `;
+};
+
+// function EditionMode() {
+//     const portfolio = document.getElementById("portfolio");
+//     const portfolioTitle = document.getElementById("portfolio-title");
+//     const editElement = document.createElement(`
+//         <a href="#" data-target="#modale1" data-toggle="modal">
+//             <i class="fa-regular fa-pen-to-square"></i>
+//             modifier
+//         </a>    
+//     `);
+//     portfolio.insertBefore(editElement, portfolioTitle.nextSibling);
+// }
+
+// Changement login/logout. Retrait des filtres.
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.localStorage.getItem("token") != null) {
+        EditionMode();
+        const navLogin = document.getElementById("nav-login");
+        const filtresDiv = document.querySelector(".filtres");
+
+        navLogin.textContent = "logout";
+        filtresDiv.style.display = "none";
+        navLogin.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.localStorage.clear();
+            window.location.reload();
+        })
+    }
+})
+
 init();

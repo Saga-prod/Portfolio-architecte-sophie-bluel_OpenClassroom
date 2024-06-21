@@ -9,20 +9,25 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="categories.js" defer></script>
-	<script type="module" src="works.js" defer></script>
+	<script src="categories.js" defer></script>
+	<script src="index.js" defer></script>
+	<script src="modal.js"></script>
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
+
+	<div class="admin-mode"></div>
+	<div class="header-nav">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="./login.html">login</a></li>
+			<li><a id="nav-login" href="./login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
+	</div>
 </header>
 <main>
 	<section id="introduction">
@@ -37,11 +42,14 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="filtres">
+		<div class="modified-title">
+			<h2 id="portfolio-title">Mes Projets</h2>
 		</div>
-		<div id="gallery" class="gallery">
-		</div>
+
+		<div class="filtres"></div>
+
+		<div id="gallery" class="gallery"></div>
+
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -56,6 +64,34 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+
+	<aside class="modale" role="dialog" aria-labelledby="titreModale">
+
+		<div id="modale1" class="modale-container-global" style="display: none;">
+		  <div class="icon">
+			<a href="#" id="fermer" data-dismiss="dialog"><i class="fa-solid fa-xmark"></i></a>
+		  </div>
+		  <div class="modal-container supprimer">
+			<h3 id="titreModale">Galerie photo</h3>
+			<div class="supprime-photo">
+			</div>
+		  </div>
+		  <div>
+			<button id="btn-ajout" data-target="#modale2" data-toggle="modal" class="modale-button gris">Ajouter
+			  une
+			  photo</button>
+		  </div>
+		</div>
+		
+		<div id="modale2" class="modale-container-global" style="display: none;">
+
+			<div class="iconModal2">
+			  <a href="#" id="retourEnArriere"><i class=" fa-solid fa-arrow-left"></i></a>
+			  <a href="#" id="fermer" data-dismiss="dialog"><i class="fa-solid fa-xmark"></i></a>
+			</div>
+		</div>
+  
+	  </aside>
 </main>
 
 <footer>
