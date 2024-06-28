@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/db91298b09.js" crossorigin="anonymous"></script>
 	<script src="categories.js" defer></script>
 	<script src="index.js" defer></script>
 	<script src="modal.js"></script>
@@ -67,28 +68,56 @@
 
 	<aside class="modale" role="dialog" aria-labelledby="titreModale">
 
-		<div id="modale1" class="modale-container-global" style="display: none;">
+		<div id="updateModal" class="modale-container-global">
 		  <div class="icon">
 			<a href="#" id="fermer" data-dismiss="dialog"><i class="fa-solid fa-xmark"></i></a>
 		  </div>
 		  <div class="modal-container supprimer">
 			<h3 id="titreModale">Galerie photo</h3>
-			<div class="supprime-photo">
+			<div class="update-view">
 			</div>
 		  </div>
 		  <div>
-			<button id="btn-ajout" data-target="#modale2" data-toggle="modal" class="modale-button gris">Ajouter
+			<button id="btn-ajout" data-target="#addingModal" data-toggle="modal" class="modale-button gris">Ajouter
 			  une
 			  photo</button>
 		  </div>
 		</div>
 		
-		<div id="modale2" class="modale-container-global" style="display: none;">
+		<div id="addingModal" class="modale-container-global">
 
 			<div class="iconModal2">
 			  <a href="#" id="retourEnArriere"><i class=" fa-solid fa-arrow-left"></i></a>
 			  <a href="#" id="fermer" data-dismiss="dialog"><i class="fa-solid fa-xmark"></i></a>
 			</div>
+			<form action="#" method="post">
+				<div class="modal-container ajouter">
+					<h3 id="titreModale">Ajout photo</h3>
+					<div class="modale-nouvelle-photo">
+						<div class="photo-file">
+					  		<i class="fa-regular fa-image"></i>
+					  		<label for="avatar" class="photoAjouter">+ Ajouter photo</label>
+					  		<input type="file" id="avatar" name="imageUrl" accept="image/png, image/jpeg" required>
+	  						<p class="photo-size">jpg,png:4mo max</p>
+						</div>
+	  				</div>
+	  
+				  	<div class="modale-nouvelle-categorie">
+						<label for="titre">Titre</label>
+						<input type="text" name="title" id="titre" required>
+						<div class="selectCategorie">
+					  		<label for="categorie">Catégorie</label>
+					  		<select name="categoryId" id="categorie" required></select>
+					  		<i class="fa-solid fa-chevron-down"></i>
+						</div>
+				  	</div>
+				</div>
+
+				<div>
+					<button id="btn-valider" class="modale-button" disabled>Valider</button>
+				</div>
+				<span class="erreur" style="color: red;"></span> <!-- Message d'erreur -->
+			</form>
 		</div>
   
 	  </aside>
