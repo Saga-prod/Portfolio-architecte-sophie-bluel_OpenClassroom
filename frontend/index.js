@@ -66,19 +66,31 @@ function generateWork(works) {
 function generateCategories(categories) {
     const filtresDiv = document.querySelector(".filtres");
     const buttonAllWorks = document.createElement("button");
+    const addingModalselect = document.getElementById("categorie");
     buttonAllWorks.innerText = "Tous";
     buttonAllWorks.className = "allTheWorks";
     filtresDiv.appendChild(buttonAllWorks);
 
     for ( let i = 0 ; i < categories.length ; i++ ){
         const category = categories[i];
+        // Category display button
         const buttonFiltres = document.createElement("button");
         buttonFiltres.innerText = category.name;
         buttonFiltres.className = `category${category.id}`
-
         filtresDiv.appendChild(buttonFiltres);
+        // Category display select
+        const newOption = new Option(`${category.name}`,`${category.id}`);
+        addingModalselect.options[addingModalselect.options.length] = newOption;
+        addingModalselect.addEventListener('change', (e) => {
+            console.log(e.target.value);
+        })
     };
 };
+
+// const formElement = document.querySelector("form");
+// const formData = new FormData(formElement);
+// console.log(formElement);
+// console.log(formData);
 
 async function init() {
     const works = await fetchWorks();
@@ -199,10 +211,10 @@ function updateViewWorks(works) {
 }
 
 // Suppression des travaux
-function deleteWork() {
+async function deleteWork() {
     const trashs = document.querySelectorAll(".update-view .fa-trash-can");
     trashs.forEach((trash) => {
-        trash.addEventListener("click", () => {
+        trash.addEventListener("click", async () => {
             const id = trash.id;
             console.log(id);
             let token = localStorage.getItem("token");
@@ -213,25 +225,109 @@ function deleteWork() {
                     authorization: `Bearer ${token}`,
                 },
             };
-            fetch("http://localhost:5678/api/works/" + id, init)
-            .then((response) => {
+            try {
+                const response = await fetch("http://localhost:5678/api/works/" + id, init)
                 if (!response.ok) {
                     console.log("impossible de supprimer !!");
                 }
                 if (response.ok) {
                     console.log("Le projet est été supprimé avec succès"); // Ne s'affiche pas ?????????
-                    const works = fetchWorks();
+                    const works = await fetchWorks();
                     console.log(works);
+                    document.querySelector('.update-view').innerHTML = "";
+                    document.querySelector(".gallery").innerHTML = "";
                     generateWork(works);
-                    init();
+                    updateViewWorks(works);
                     closeModal();
+                }
+            }
+            catch(error) {
+                console.log(error);
+            };
+        });
+    });
+}
+
+// Fermeture de la modale
+const modaleGlobale = document.querySelector(".modale");
+const closeModal = function () {
+    modaleGlobale.style.display = "none";
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    // IMG
+    const fileInput = document.getElementById("avatar");
+    const pictureFileContent = document.querySelector(".photo-file");
+    // FORM
+    const form = document.querySelector("#addingModal form");
+    const title = document.getElementById("titre");
+    const category = document.getElementById("categorie");
+    const errorMessage = document.querySelector(".erreur");
+    const formValidationButton = document.getElementById("btn-valider");
+
+    function displayImg() {
+        const image = this.files[0];
+        console.log(image);
+        if (image.size < 4 * 1024 * 1024) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const imgUrl = reader.result;
+                console.log(imgUrl);
+                const img = document.createElement("img");
+                img.src = imgUrl;
+                pictureFileContent.appendChild(img);
+              };
+            reader.readAsDataURL(image);
+        } else {
+            console.log("Size of the picture is too big");
+        }
+    }
+
+    fileInput.addEventListener("change", displayImg);
+
+    // FORM VALIDATION
+    form.addEventListener("input", function () {
+        if (title.value !== "" && category.value !== "" && fileInput.value !== "") {
+          formValidationButton.disabled = false;
+          formValidationButton.classList.add("btnValid");
+          errorMessage.textContent = "";
+        } else {
+          errorMessage.textContent =
+            "Veuillez remplir tous les champs du formulaire.";
+          formValidationButton.classList.remove("btnValid");
+          formValidationButton.disabled = true;
+        }
+    });
+
+    // ENVOI DES DONNEES
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+    
+        const formData = new FormData();
+        formData.append("title", title.value);
+        formData.append("category", category.value);
+        formData.append("image", fileInput.files[0]);
+            fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+                body: formData,
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    fetchWorks();
+                    form.reset();
+                    closeModal();
+                } else {
+                    console.log("Ajout projet failed");
                 }
             })
             .catch((error) => {
                 console.log(error);
-            });
-        });
-    });
-}
+            })
+        }
+    );
+})
 
 init();

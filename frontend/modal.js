@@ -38,8 +38,8 @@ window.onload = () => {
             //On recupère le bouton de retour en arrière
             const retourEnArriere = document.getElementById("retourEnArriere");
             retourEnArriere.addEventListener("click", () => {
-                modale1.style.display = "block";
-                modale2.style.display = "none";
+                updateModal.style.display = "block";
+                addingModal.style.display = "none";
             });
   
   
