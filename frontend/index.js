@@ -95,7 +95,7 @@ function generateCategories(categories) {
 async function init() {
     const works = await fetchWorks();
     const categories = await fetchCategory();
-
+    
     generateWork(works);
     generateCategories(categories) // On lui donne un argument
     const buttonAllWorks = document.querySelector(".allTheWorks"),
@@ -231,7 +231,7 @@ async function deleteWork() {
                     console.log("impossible de supprimer !!");
                 }
                 if (response.ok) {
-                    console.log("Le projet est été supprimé avec succès"); // Ne s'affiche pas ?????????
+                    console.log("Le projet est été supprimé avec succès");
                     const works = await fetchWorks();
                     console.log(works);
                     document.querySelector('.update-view').innerHTML = "";
@@ -317,8 +317,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(function(response) {
                 if (response.ok) {
                     fetchWorks();
+                    const myPicture = pictureFileContent.querySelector("img");
+                    myPicture.remove();
+                    formValidationButton.classList.remove("btnValid");
+                    formValidationButton.disabled = true;
                     form.reset();
                     closeModal();
+                    document.querySelector('.gallery').innerHTML = "";
+                    init();
                 } else {
                     console.log("Ajout projet failed");
                 }

@@ -15,15 +15,15 @@ document.addEventListener("submit", (e) => {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
-        // body: JSON.stringify({
-        //     email: formInfo.email.value,
-        //     password: formInfo.password.value,
-        // }),
-        // A retirer pour la presentation.
         body: JSON.stringify({
-            email: "sophie.bluel@test.tld",
-            password: "S0phie",
+            email: formInfo.email.value,
+            password: formInfo.password.value,
         }),
+        // A retirer pour la presentation.
+        // body: JSON.stringify({
+        //     email: "sophie.bluel@test.tld",
+        //     password: "S0phie",
+        // }),
     })
     .then((response) => {
         console.log(response);
